@@ -1,0 +1,12 @@
+{
+    "id": "{65BB9648-4FD7-0526-9606-C107D6A44E85}",
+    "name": "Octoprint",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "OCTO",
+    "url": ""
+}
