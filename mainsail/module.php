@@ -107,7 +107,7 @@ class Mainsail extends IPSModule {
         $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
         $apiKey = $this->ReadPropertyString("APIKey");
 
-        $this->SendDebug("OCTO Requested URL", $url, 0);
+        $this->SendDebug("Mainsail Requested URL", $url, 0);
         $headers = array(
             'X-Api-Key: ' . $apiKey
         );
@@ -118,7 +118,7 @@ class Mainsail extends IPSModule {
         curl_close($ch);
 
         $content = json_decode($response);
-        $this->SendDebug("OCTO Response", print_r($content, true), 0);
+        $this->SendDebug("Mainsail Response", print_r($content, true), 0);
         if (isset($content->response->error)) {
             throw new Exception("Response from Mainsail is invalid: " . $content->response->error->description);
         }
