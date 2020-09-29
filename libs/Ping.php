@@ -1,14 +1,5 @@
 <?php
 
-class Ping {
-
-  private $host;
-  private $ttl;
-  private $timeout;
-  private $port = 80;
-  private $data = 'Ping';
-  private $commandOutput;
-
 function ping($host, $timeout = 1) {
     /* ICMP ping packet with a pre-calculated checksum */
     $package = "\x08\x00\x7d\x4b\x00\x00\x00\x00PingHost";
@@ -25,4 +16,3 @@ function ping($host, $timeout = 1) {
     socket_close($socket);
     return $result;
  }  
-}
