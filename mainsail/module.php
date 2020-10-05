@@ -72,7 +72,7 @@ class Mainsail extends IPSModule {
         } */
 
         $data = $this->RequestAPI('/printer/info');
-        SetValue($this->GetIDForIdent("state_message"), $data->current->state);
+        SetValue($this->GetIDForIdent("Status"), $data->state);
 
         $data = $this->RequestAPI('/api/printer');
         SetValue($this->GetIDForIdent("BedTempActual"), $this->FixupInvalidValue($data->temperature->bed->actual));
