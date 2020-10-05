@@ -77,17 +77,21 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?heater_bed');
         SetValue($this->GetIDForIdent("BedTempActual"), $this->FixupInvalidValue($data->result->status->heater_bed->temperature));
         SetValue($this->GetIDForIdent("BedTempTarget"), $this->FixupInvalidValue($data->result->status->heater_bed->target));
-        $data = $this->RequestAPI('/printer/objects/query?heater_bed');
-        SetValue($this->GetIDForIdent("ToolTempActual"), $this->FixupInvalidValue($data->temperature->tool0->actual));
-        SetValue($this->GetIDForIdent("ToolTempTarget"), $this->FixupInvalidValue($data->temperature->tool0->target));
 
-        $data = $this->RequestAPI('/api/job');
-        SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
-        SetValue($this->GetIDForIdent("FileName"), $data->job->file->name);
-        SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->progress->printTime));
-        SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($data->progress->printTimeLeft));
-        SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->progress->completion));
-        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->progress->printTimeLeft));
+        $data = $this->RequestAPI('/printer/objects/query?extruder');
+        SetValue($this->GetIDForIdent("ToolTempActual"), $this->FixupInvalidValue($data->result->status->extruder->temperature));
+        SetValue($this->GetIDForIdent("ToolTempTarget"), $this->FixupInvalidValue($data->result->status->extruder->target));
+
+        $data = $this->RequestAPI('/printer/objects/query?print_stats');
+        //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
+        SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);
+        SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->total_duration));
+        SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($data->result->status->print_stats->print_duration));
+        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
+
+        $data = $this->RequestAPI('/printer/objects/query?display_status');
+        SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->display_status->progress));
+
     }
 
     public function LightsOff() {
