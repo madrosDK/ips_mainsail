@@ -72,7 +72,6 @@ class Mainsail extends IPSModule {
         } */
 
         $data = $this->RequestAPI('/printer/info');
-        SetValue($this->GetIDForIdent("Status"), $data->result->state_message);
 
         $data = $this->RequestAPI('/printer/objects/query?heater_bed');
         SetValue($this->GetIDForIdent("BedTempActual"), $this->FixupInvalidValue($data->result->status->heater_bed->temperature));
@@ -84,6 +83,7 @@ class Mainsail extends IPSModule {
 
         $data = $this->RequestAPI('/printer/objects/query?print_stats');
         //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
+        SetValue($this->GetIDForIdent("Status"), $data->result->status->print_stats->state);
         SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);
         SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->total_duration));
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($data->result->status->print_stats->print_duration));
