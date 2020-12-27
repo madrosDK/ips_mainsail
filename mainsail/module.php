@@ -17,8 +17,8 @@ class Mainsail extends IPSModule {
         $this->RegisterScript("NeopixelsOn", "Neopixels On", "<?php\n\nOCTO_LightsOn(" . $this->InstanceID . ");", 0);
         $this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nOCTO_LightsOff(" . $this->InstanceID . ");", 0);
 
-        $this->CreateVarProfile("OCTO.Size", 2, " MB", 0, 9999, 0, 1, "Database");
-        $this->CreateVarProfile("OCTO.Completion", 2, " %", 0, 100, 1, 0, "Hourglass");
+        $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
+        $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 1, 0, "Hourglass");
     }
 
     public function ApplyChanges() {
@@ -56,11 +56,11 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("ToolTempTarget", "Nozzle Temperature Target", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempTarget", "File Size", 2, "Temperature", 0, true);
 
-        $this->MaintainVariable("FileSize", "File Size", 2, "OCTO.Size", 0, true);
+        $this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTime", "Print Time", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
-        $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "OCTO.Completion", 0, true);
+        $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
         $this->MaintainVariable("PrintFinished", "Print Finished", 3, "TextBox", 0, true);
     }
 
@@ -89,8 +89,8 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($data->result->status->print_stats->print_duration));
         SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
 
-        $data = $this->RequestAPI('/printer/objects/query?display_status');
-        SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->display_status->progress));
+        $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
+        SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress));
 
     }
 
