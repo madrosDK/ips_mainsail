@@ -18,7 +18,7 @@ class Mainsail extends IPSModule {
         $this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nOCTO_LightsOff(" . $this->InstanceID . ");", 0);
 
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
-        $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 1, 0, "Hourglass");
+        $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
     }
 
     public function ApplyChanges() {
@@ -54,7 +54,6 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("BedTempTarget", "Bed Temperature Target", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempActual", "Nozzle Temperature Actual", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempTarget", "Nozzle Temperature Target", 2, "Temperature", 0, true);
-        $this->MaintainVariable("ToolTempTarget", "File Size", 2, "Temperature", 0, true);
 
         $this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "TextBox", 0, true);
