@@ -19,6 +19,7 @@ class Mainsail extends IPSModule {
 
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
+        $this->CreateVarProfile("MAINSAIL.Height", 2, " mm", 0, 500, 0.1, 1, "Distance");
     }
 
     public function ApplyChanges() {
@@ -54,6 +55,8 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("BedTempTarget", "Bed Temperature Target", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempActual", "Nozzle Temperature Actual", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempTarget", "Nozzle Temperature Target", 2, "Temperature", 0, true);
+        $this->MaintainVariable("Height", "Z Height", 2, "MAINSAIL.Height", 0, true);
+
 
         $this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "TextBox", 0, true);
@@ -79,6 +82,9 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?extruder');
         SetValue($this->GetIDForIdent("ToolTempActual"), $this->FixupInvalidValue($data->result->status->extruder->temperature));
         SetValue($this->GetIDForIdent("ToolTempTarget"), $this->FixupInvalidValue($data->result->status->extruder->target));
+
+        $data = $this->RequestAPI('/printer/objects/query?gcode_move');
+        SetValue($this->GetIDForIdent("Height"), $this->FixupInvalidValue($data->result->status->gcode_move->position->2));
 
         $data = $this->RequestAPI('/printer/objects/query?print_stats');
         //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
@@ -139,11 +145,11 @@ class Mainsail extends IPSModule {
 
     private function CreateVarProfile($name, $ProfileType, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Icon) {
         if (!IPS_VariableProfileExists($name)) {
-            IPS_CreateVariableProfile($name, $ProfileType);
+            IPS_CreateVariableProfile($name, $ProfileType);                       //0 Boolean; 1 Integer; 2 Float; 3 String
             IPS_SetVariableProfileText($name, "", $Suffix);
-            IPS_SetVariableProfileValues($name, $MinValue, $MaxValue, $StepSize);
-            IPS_SetVariableProfileDigits($name, $Digits);
-            IPS_SetVariableProfileIcon($name, $Icon);
+            IPS_SetVariableProfileValues($name, $MinValue, $MaxValue, $StepSize); //min, max, Schrittweite
+            IPS_SetVariableProfileDigits($name, $Digits);                         //Anzahl Nachkommastellen
+            IPS_SetVariableProfileIcon($name, $Icon);                             //https://www.symcon.de/service/dokumentation/komponenten/icons/
         }
     }
 
