@@ -84,7 +84,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("ToolTempTarget"), $this->FixupInvalidValue($data->result->status->extruder->target));
 
         $data = $this->RequestAPI('/printer/objects/query?gcode_move');
-        SetValue($this->GetIDForIdent("Height"), $this->FixupInvalidValue($data->result->status->gcode_move->position->[2]));
+        SetValue($this->GetIDForIdent("Height"), $this->FixupInvalidValue($data->result->status->gcode_move->position[2]));
 
         $data = $this->RequestAPI('/printer/objects/query?print_stats');
         //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
