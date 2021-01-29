@@ -64,12 +64,14 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
         $this->MaintainVariable("PrintFinished", "Print Finished", 3, "TextBox", 0, true);
+        $this->MaintainVariable("Filament", "Filament used", 3, "TextBox", 0, true);
+
     }
 
     public function UpdateData() {
         $ping = new Ping($this->ReadPropertyString("Host"));
     /*    if ($ping->ping() == false) {
-            $this->SendDebug(__FUNCTION__, 'Octoprint is offline', 0);
+            $this->SendDebug(__FUNCTION__, 'Mainsail is offline', 0);
             return;
         } */
 
@@ -96,6 +98,9 @@ class Mainsail extends IPSModule {
 
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
+
+        $data = $this->RequestAPI('/server/files/metadata?filename='FileName);
+        SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
 
     }
 
