@@ -68,7 +68,8 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("PrintTime", "Print Time", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
-        $this->MaintainVariable("PrintFinished", "Print Finished", 3, "TextBox", 0, true);
+        $this->MaintainVariable("SlicerETA", "Slicer ETA", 3, "TextBox", 0, true);
+        $this->MaintainVariable("FilemantETA", "ETA Filament", 3, "TextBox", 0, true);
         $this->MaintainVariable("Filament", "Filament total", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("Test", "Test", 3, "TextBox", 0, true);
@@ -113,9 +114,9 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
-        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
+        SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
+        SetValue($this->GetIDForIdent("FilemantETA"), $this->CreatePrintFinished($this->FixupInvalidValue($this->FilamentETA())));
 
-        SetValue($this->GetIDForIdent("Test"), $this->CreatePrintFinished($this->FixupInvalidValue($this->FilamentETA())));
         //Test zum auslesen über ID
 //        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 //        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
