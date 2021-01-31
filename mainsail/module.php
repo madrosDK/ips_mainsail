@@ -20,19 +20,9 @@ class Mainsail extends IPSModule {
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
         $this->CreateVarProfile("MAINSAIL.Length", 2, " mm", 0, 500, 0.1, 1, "Distance");
-//thumbnail
-        if (!$media)
-          {
-            $media = IPS_CreateMedia(1);
-            IPS_SetIdent($media, "thumbnail");
-            IPS_SetName($media, "thumbnail");
-            IPS_SetMediaContent($media, $Value);
-            IPS_SetParent($media, $this->InstanceID);
-          }
-        else
-          {
-            return 0;
-          }
+        $this->CreateThumbnail();  //thumbnail
+
+
     }
 
     public function ApplyChanges() {
@@ -187,6 +177,22 @@ class Mainsail extends IPSModule {
       IPS_SetMediaContent($media, $Value);
     }
 
+    private function CreateThumbnail() {
+    $media = @IPS_GetMediaIDByName("thumbnail", $this->InstanceID);
+    if (!$media)
+      {
+        $media = IPS_CreateMedia(1);
+        IPS_SetIdent($media, "thumbnail");
+        IPS_SetName($media, "thumbnail");
+        IPS_SetMediaContent($media, "");
+        IPS_SetParent($media, $this->InstanceID);
+      }
+    else
+      {
+        return 0;
+      }
+
+  }
     private function CreateVarProfile($name, $ProfileType, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Icon) {
         if (!IPS_VariableProfileExists($name)) {
             IPS_CreateVariableProfile($name, $ProfileType);                       //0 Boolean; 1 Integer; 2 Float; 3 String
