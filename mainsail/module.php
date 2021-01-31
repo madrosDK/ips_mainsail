@@ -99,8 +99,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("Status"), $data->result->status->print_stats->state);
         SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);
         SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->total_duration));
-        SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($data->result->status->print_stats->print_duration));
-        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
+
 
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
@@ -109,10 +108,12 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
         SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
 
+        SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
+        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 
         //Test zum auslesen über ID
         SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
-
+//        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
     }
 
     public function LightsOff() {
