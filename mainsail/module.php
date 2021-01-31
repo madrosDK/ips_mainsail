@@ -176,7 +176,7 @@ class Mainsail extends IPSModule {
       $media = $this->GetIDForIdent("thumbnail");
       if ($media)
         {
-          IPS_SetMediaContent($media, $Value);
+          IPS_SetMediaContent(29615, $Value);
         }
       else {
         return 0;
