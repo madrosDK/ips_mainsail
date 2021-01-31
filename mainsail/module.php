@@ -186,8 +186,9 @@ class Mainsail extends IPSModule {
         if $filament_used > 0 && $filament_total > $filament_used
           {
             return ($printtime / ($filament_used/$filament_total)-$printtime);
+          } else {
+            return 0;
           }
-        return 0;
     }
 
     private function CreateUnix($Value) {
