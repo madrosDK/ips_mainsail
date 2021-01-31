@@ -52,6 +52,8 @@ class Mainsail extends IPSModule {
 //MaintainVariable(string $Ident, string $Name, integer $Typ, string $Profil, integer $Position, boolean $Beibehalten)
 //Typ 0: Boolean, 1: Integer, 2: Float, 3: String; $Position = Position im Baum
 
+
+
         $this->MaintainVariable("Status", "Status", 3, "TextBox", 0, true);
 
         $this->MaintainVariable("BedTempActual", "Bed Temperature Actual", 2, "Temperature", 0, true);
@@ -68,7 +70,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("PrintTime", "Print Time", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
-        $this->MaintainVariable("SlicerETA", "Slicer ETA", 3, "TextBox", 0, true);
+        $this->MaintainVariable("SlicerETA", "ETA Slicer", 3, "TextBox", 0, true);
         $this->MaintainVariable("FilemantETA", "ETA Filament", 3, "TextBox", 0, true);
         $this->MaintainVariable("Filament", "Filament total", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
@@ -112,6 +114,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
         SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
         SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
+        SetValue($this->GetIDForIdent("thumbnail"), $this->GetThumbnail($data->result->thumbnails[1][data]));
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
@@ -164,6 +167,22 @@ class Mainsail extends IPSModule {
         } else {
             return 0;
         }
+    }
+
+    private function GetThumbnail($Value) {
+      $media = @IPS_GetMediaIDByName("thumbnail", $this->InstanceID);
+        if (!$media)
+          {
+            $media = IPS_CreateMedia(1);
+            IPS_SetIdent($media, "thumbnail");
+            IPS_SetName($media, "thumbnail");
+            IPS_SetMediaContent($media, $Value);
+            IPS_SetParent($media, $this->InstanceID);
+          }
+        else
+          {
+            IPS_SetMediaContent($media, $Value);
+          }
     }
 
     private function CreateVarProfile($name, $ProfileType, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Icon) {
