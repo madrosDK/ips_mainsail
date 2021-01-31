@@ -174,7 +174,7 @@ class Mainsail extends IPSModule {
     }
 
     private function CreateUnix($Value) {
-        $hms = explode(":", $value);
+        $hms = explode(":", $Value);
         return ($hms[0] + ($hms[1]/60) + ($hms[2]/3600));
     }
 
