@@ -65,6 +65,8 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
         $this->MaintainVariable("PrintFinished", "Print Finished", 3, "TextBox", 0, true);
         $this->MaintainVariable("Filament", "Filament used", 3, "TextBox", 0, true);
+        $this->MaintainVariable("Test", "Test", 3, "TextBox", 0, true);
+
 
     }
 
@@ -99,7 +101,8 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
-        $data = $this->RequestAPI('/server/files/metadata?filename=.GetValue($this->GetIDForIdent("File Name")'));
+        $data = $this->RequestAPI('/server/files/metadata?filename='.GetValue($this->GetIDForIdent("File Name")));
+        SetValue($this->GetIDForIdent("Test"), $this->GetIDForIdent("File Name"));
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
 
     }
