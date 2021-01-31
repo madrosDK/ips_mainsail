@@ -84,10 +84,10 @@ class Mainsail extends IPSModule {
 
     public function UpdateData() {
         $ping = new Ping($this->ReadPropertyString("Host"));
-    /*    if ($ping->ping() == false) {
+        if ($ping->ping() == false) {
             $this->SendDebug(__FUNCTION__, 'Mainsail is offline', 0);
             return;
-        } */
+        } 
 
         $data = $this->RequestAPI('/printer/info');
 
