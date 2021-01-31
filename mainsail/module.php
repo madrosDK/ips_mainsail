@@ -174,7 +174,7 @@ class Mainsail extends IPSModule {
     }
 
     private function CreateUnix($Value) {
-        return strtotime($this->$Value);
+        return strtotime($Value);
     }
 
     private function CreatePrintFinished($Value) {
