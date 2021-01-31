@@ -83,7 +83,7 @@ class Mainsail extends IPSModule {
 
     public function UpdateData() {
         $ping = Ping($this->ReadPropertyString("Host"));
-        if ($ping == "") {
+        if ($ping == false) {
             $this->SendDebug(__FUNCTION__, 'Mainsail is offline', 0);
             return;
         }
