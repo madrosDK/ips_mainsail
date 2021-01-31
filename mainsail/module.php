@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../libs/Ping_ALT.php';
+require_once __DIR__ . '/../libs/Ping.php';
 
 class Mainsail extends IPSModule {
 
@@ -82,11 +82,11 @@ class Mainsail extends IPSModule {
     }
 
     public function UpdateData() {
-        $ping = new Ping($this->ReadPropertyString("Host"));
-      /*  if ($ping->ping() == false) {
+        $ping = Ping($this->ReadPropertyString("Host"));
+        if (!$ping) {
             $this->SendDebug(__FUNCTION__, 'Mainsail is offline', 0);
             return;
-        }*/
+        }
 
         $data = $this->RequestAPI('/printer/info');
 
