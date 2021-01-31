@@ -19,7 +19,7 @@ class Mainsail extends IPSModule {
 
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
-        $this->CreateVarProfile("MAINSAIL.Height", 2, " mm", 0, 500, 0.1, 1, "Distance");
+        $this->CreateVarProfile("MAINSAIL.Length", 2, " mm", 0, 500, 0.1, 1, "Distance");
     }
 
     public function ApplyChanges() {
@@ -49,22 +49,26 @@ class Mainsail extends IPSModule {
             $this->SetStatus(104);
         }
 
+//MaintainVariable(string $Ident, string $Name, integer $Typ, string $Profil, integer $Position, boolean $Beibehalten)
+//Typ 0: Boolean, 1: Integer, 2: Float, 3: String; $Position = Position im Baum
+
         $this->MaintainVariable("Status", "Status", 3, "TextBox", 0, true);
 
         $this->MaintainVariable("BedTempActual", "Bed Temperature Actual", 2, "Temperature", 0, true);
         $this->MaintainVariable("BedTempTarget", "Bed Temperature Target", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempActual", "Nozzle Temperature Actual", 2, "Temperature", 0, true);
         $this->MaintainVariable("ToolTempTarget", "Nozzle Temperature Target", 2, "Temperature", 0, true);
-        $this->MaintainVariable("Height", "Z Height", 2, "MAINSAIL.Height", 0, true);
+        $this->MaintainVariable("Height", "Z Height", 2, "MAINSAIL.Length", 0, true);
 
 
         $this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "TextBox", 0, true);
+        $this->MaintainVariable("TotalTime", "Total Time", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTime", "Print Time", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
         $this->MaintainVariable("PrintFinished", "Print Finished", 3, "TextBox", 0, true);
-        $this->MaintainVariable("Filament", "Filament used", 3, "TextBox", 0, true);
+        $this->MaintainVariable("Filament", "Filament used", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("Test", "Test", 3, "TextBox", 0, true);
 
 
@@ -103,6 +107,8 @@ class Mainsail extends IPSModule {
 
         $data = $this->RequestAPI('/server/files/metadata?filename='.GetValue($this->GetIDForIdent("FileName")));
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
+        SetValue($this->GetIDForIdent("TotalTime"), $this->CreateUnix(GetValue($this->GetIDForIdent("PrinTime"))));
+
 
         //Test zum auslesen über ID
         //SetValue($this->GetIDForIdent("Test"), GetValue($this->GetIDForIdent("FileName")));
@@ -165,6 +171,10 @@ class Mainsail extends IPSModule {
 
     private function CreateDuration($Value) {
         return gmdate("H:i:s", $this->FixupInvalidValue($Value));
+    }
+
+    private function CreateUnix($Value) {
+        return strototime(.$this->FixupInvalidValue($Value));
     }
 
     private function CreatePrintFinished($Value) {
