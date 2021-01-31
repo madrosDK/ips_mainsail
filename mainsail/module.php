@@ -111,7 +111,7 @@ class Mainsail extends IPSModule {
 
 
         //Test zum auslesen über ID
-        SetValue($this->GetIDForIdent("Test"), $this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime"))));
+        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 
     }
 
