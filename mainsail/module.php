@@ -102,7 +102,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
         $data = $this->RequestAPI('/server/files/metadata?filename='.GetValue(GetIDForIdent("FileName")));
-        SetValue($this->GetIDForIdent("Test"), GetValue(GetIDForIdent("FileName"));
+        SetValue($this->GetIDForIdent("Test"), GetValue(GetIDForIdent("FileName")));
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
 
     }
