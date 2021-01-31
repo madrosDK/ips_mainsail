@@ -180,9 +180,9 @@ class Mainsail extends IPSModule {
     }
 
     private function FilamentETA() {
-        $filament_used=GetValue($this->GetIDForIdent("FilamentUsed"));
-        $filament_total=GetValue($this->GetIDForIdent("Filament"));
-        $printtime=CreateUnix(GetValue($this->GetIDForIdent("PrintTime")));
+        $filament_used=$this->GetValue($this->GetIDForIdent("FilamentUsed"));
+        $filament_total=$this->GetValue($this->GetIDForIdent("Filament"));
+        $printtime=$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")));
         if ($filament_used > 0 && $filament_total > $filament_used)
           {
             return ($printtime / ($filament_used/$filament_total)-$printtime);
