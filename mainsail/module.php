@@ -69,7 +69,8 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
         $this->MaintainVariable("PrintFinished", "Print Finished", 3, "TextBox", 0, true);
-        $this->MaintainVariable("Filament", "Filament used", 2, "MAINSAIL.Length", 0, true);
+        $this->MaintainVariable("Filament", "Filament total", 2, "MAINSAIL.Length", 0, true);
+        $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("Test", "Test", 3, "TextBox", 0, true);
 
 
@@ -98,6 +99,7 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?print_stats');
         //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
         SetValue($this->GetIDForIdent("Status"), $data->result->status->print_stats->state);
+        SetValue($this->GetIDForIdent("FilamentUsed"), $data->result->status->print_stats->filament_used);
         SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);
         SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->print_duration));
 
@@ -113,8 +115,9 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 
+        SetValue($this->GetIDForIdent("Test"), $this->FilamentETA());
         //Test zum auslesen über ID
-        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
+//        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 //        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
     }
 
@@ -174,6 +177,17 @@ class Mainsail extends IPSModule {
 
     private function CreateDuration($Value) {
         return gmdate("H:i:s", $this->FixupInvalidValue($Value));
+    }
+
+    private function FilamentETA() {
+        $filament_used=GetValue($this->GetIDForIdent("FilamentUsed"));
+        $filament_total=GetValue($this->GetIDForIdent("Filament"));
+        $printtime=GetValue($this->GetIDForIdent("PrintTime"));
+        if $filament_used > 0 && $filament_total > $filament_used
+          {
+            return ($printtime / ($filament_used/$filament_total)-$printtime);
+          }
+        return 0;
     }
 
     private function CreateUnix($Value) {
