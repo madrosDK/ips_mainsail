@@ -117,7 +117,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
         SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
         SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
-        SetValue($this->GetIDForIdent("thumbnail"), $this->GetThumbnail($data->result->thumbnails[1]["data"]));
+        SetValue($this->GetIDForIdent("thumbnail"), $this->GetThumbnail($data->result->thumbnails[1]->data));
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
