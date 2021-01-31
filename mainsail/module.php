@@ -108,7 +108,7 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/server/files/metadata?filename='.GetValue($this->GetIDForIdent("FileName")));
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
         SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
-        SetValue($this->GetIDForIdent("ObjectHeight"), $this->(FixupInvalidValue($data->result->object_height-0.4)));
+        SetValue($this->GetIDForIdent("ObjectHeight"), $this->(FixupInvalidValue($data->result->object_height)));
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
