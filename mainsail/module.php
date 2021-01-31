@@ -99,7 +99,7 @@ class Mainsail extends IPSModule {
         //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
         SetValue($this->GetIDForIdent("Status"), $data->result->status->print_stats->state);
         SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);
-        SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->total_duration));
+        SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->print_duration));
 
 
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
