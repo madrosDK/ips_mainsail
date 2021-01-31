@@ -107,7 +107,7 @@ class Mainsail extends IPSModule {
 
         $data = $this->RequestAPI('/server/files/metadata?filename='.GetValue($this->GetIDForIdent("FileName")));
         SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
-        SetValue($this->GetIDForIdent("TotalTime"), $this->CreateUnix(GetValue($this->GetIDForIdent("PrinTime"))));
+        SetValue($this->GetIDForIdent("TotalTime"), $this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime"))));
 
 
         //Test zum auslesen über ID
