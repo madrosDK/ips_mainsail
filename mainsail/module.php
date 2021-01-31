@@ -20,8 +20,6 @@ class Mainsail extends IPSModule {
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
         $this->CreateVarProfile("MAINSAIL.Length", 2, " mm", 0, 500, 0.1, 1, "Distance");
-        $this->CreateThumbnail();  //thumbnail
-
 
     }
 
@@ -78,6 +76,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("Filament", "Filament total", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("Test", "Test", 3, "TextBox", 0, true);
+        $this->CreateThumbnail();  //thumbnail
 
 
     }
@@ -87,7 +86,7 @@ class Mainsail extends IPSModule {
       /*  if ($ping->ping() == false) {
             $this->SendDebug(__FUNCTION__, 'Mainsail is offline', 0);
             return;
-        }*/ 
+        }*/
 
         $data = $this->RequestAPI('/printer/info');
 
