@@ -61,7 +61,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("Height", "Z Height", 2, "MAINSAIL.Length", 0, true);
 
 
-        $this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
+        //$this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "TextBox", 0, true);
         $this->MaintainVariable("TotalTime", "Total Time", 3, "TextBox", 0, true);
         $this->MaintainVariable("PrintTime", "Print Time", 3, "TextBox", 0, true);
