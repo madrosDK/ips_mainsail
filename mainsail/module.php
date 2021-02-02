@@ -172,7 +172,8 @@ class Mainsail extends IPSModule {
     }
 
     private function CreateThumbnail() {
-    $media = @$this->GetIDForIdent("thumbnail");
+    //$media = @$this->GetIDForIdent("thumbnail");
+    $media=@IPS_GetObjectIDByName("thumbnail", $ParentID);
     //$ObjektID =@IPS_GetObjectIDByName("Regenerfassung", $ParentID)
     if (!$media) //@ unterdrückt Meldung
   //  if (!$media)
