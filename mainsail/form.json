@@ -11,7 +11,7 @@
     ],
     "actions":
     [
-        { "type": "Button", "label": "Update", "onClick": "OCTO_UpdateData($id);" }
+        { "type": "Button", "label": "Update", "onClick": "MAINSAIL_UpdateData($id);" }
     ],
     "status":
     [
