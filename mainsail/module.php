@@ -176,7 +176,7 @@ class Mainsail extends IPSModule {
     if (!$media)
       {
         $media = IPS_CreateMedia(1);
-        $ImageFile = __DIR__ . '/../libs/najpg';
+        $ImageFile = __DIR__ . '/../na.jpg';
         IPS_SetIdent($media, "thumbnail");
         IPS_SetName($media, "thumbnail");
         IPS_SetMediaFile($media, $ImageFile, true);
