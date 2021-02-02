@@ -13,9 +13,9 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyBoolean("CamEnabled", false);
         $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
 
-        $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'OCTO_UpdateData($_IPS[\'TARGET\']);');
-        $this->RegisterScript("NeopixelsOn", "Neopixels On", "<?php\n\nOCTO_LightsOn(" . $this->InstanceID . ");", 0);
-        $this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nOCTO_LightsOff(" . $this->InstanceID . ");", 0);
+        $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
+        $this->RegisterScript("NeopixelsOn", "Neopixels On", "<?php\n\nMAINSAIL_LightsOn(" . $this->InstanceID . ");", 0);
+        $this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nMAINSAIL_LightsOff(" . $this->InstanceID . ");", 0);
 
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
