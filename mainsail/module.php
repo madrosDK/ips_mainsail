@@ -173,11 +173,11 @@ class Mainsail extends IPSModule {
 
     private function CreateThumbnail() {
     //$media = $this->GetIDForIdent("thumbnail");
-    if (!$this->GetIDForIdent("thumbnail"))
+    if ($this->GetIDForIdent("thumbnail") == "")
   //  if (!$media)
       {
         $media = IPS_CreateMedia(1);
-        $ImageFile = '/images/na.jpg';
+        $ImageFile = '/libs/images/na.jpg';
         IPS_SetIdent($media, "thumbnail");
         IPS_SetName($media, "thumbnail");
         IPS_SetMediaFile($media, $ImageFile, true);
