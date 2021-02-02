@@ -67,15 +67,15 @@ class Mainsail extends IPSModule {
 
         //$this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "", 0, true);
-        $this->MaintainVariable("TotalTime", "Total Time", 3, "TextBox", 0, true);
-        $this->MaintainVariable("PrintTime", "Print Time", 3, "TextBox", 0, true);
-        $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "TextBox", 0, true);
+        $this->MaintainVariable("TotalTime", "Total Time", 3, "", 0, true);
+        $this->MaintainVariable("PrintTime", "Print Time", 3, "", 0, true);
+        $this->MaintainVariable("PrintTimeLeft", "Print Time Left", 3, "", 0, true);
         $this->MaintainVariable("ProgressCompletion", "Progress Completion", 2, "MAINSAIL.Completion", 2, true);
-        $this->MaintainVariable("SlicerETA", "ETA Slicer", 3, "TextBox", 0, true);
-        $this->MaintainVariable("FilemantETA", "ETA Filament", 3, "TextBox", 0, true);
+        $this->MaintainVariable("SlicerETA", "ETA Slicer", 3, "", 0, true);
+        $this->MaintainVariable("FilemantETA", "ETA Filament", 3, "", 0, true);
         $this->MaintainVariable("Filament", "Filament total", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
-        $this->MaintainVariable("Test", "Test", 3, "TextBox", 0, true);
+        $this->MaintainVariable("Test", "Test", 3, "", 0, true);
         $this->CreateThumbnail();  //thumbnail
 
 
@@ -177,7 +177,7 @@ class Mainsail extends IPSModule {
   //  if (!$media)
       {
         $media = IPS_CreateMedia(1);
-        $ImageFile = __DIR__ . '/../na.jpg';
+        $ImageFile = __FILE__ . '/../na.jpg';
         IPS_SetIdent($media, "thumbnail");
         IPS_SetName($media, "thumbnail");
         IPS_SetMediaFile($media, $ImageFile, true);
