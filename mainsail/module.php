@@ -55,7 +55,7 @@ class Mainsail extends IPSModule {
 
 
 
-        $this->MaintainVariable("Status", "Status", 3, "TextBox", 0, true);
+        $this->MaintainVariable("Status", "Status", 3, "", 0, true);
 
         $this->MaintainVariable("BedTempActual", "Bed Temperature Actual", 2, "Temperature", 0, true);
         $this->MaintainVariable("BedTempTarget", "Bed Temperature Target", 2, "Temperature", 0, true);
