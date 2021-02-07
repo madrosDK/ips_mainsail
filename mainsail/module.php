@@ -10,6 +10,7 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyString("Host", "");
         $this->RegisterPropertyString("APIKey", "");
         $this->RegisterPropertyString("TelegramID", "");
+        $this->RegisterPropertyString("Recipient", "");
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
         $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
@@ -77,6 +78,8 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("Test", "Test", 3, "", 0, true);
         $this->CreateThumbnail();  //thumbnail
+        $status_id = IPS_CreateEvent(0);                  //Ausgelöstes Ereignis
+        IPS_SetEventTrigger($status_id, 1, $this->GetIDForIdent("Status"));
 
 
     }
@@ -203,6 +206,30 @@ class Mainsail extends IPSModule {
 
     private function CreateDuration($Value) {
         return gmdate("H:i:s", $this->FixupInvalidValue($Value));
+    }
+
+    private function Telegram($Value) {
+        include .$this->ReadPropertyString("TelegramID")'.ips.php';
+        $message = GetValue($this->GetIDForIdent("Message"));
+        $id = $this->ReadPropertyString("TelegramID");
+        $printtime =GetValue($this->GetIDForIdent("PrintTime"));
+        $recipient =$this->ReadPropertyString("Recipient");
+        if ($Value == "complete" && $message == "1")
+        {
+          $text="Drucker ".IPS_GetName(IPS_GetParent($printtime))"ist nach ".$printtime" fertig";
+          Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
+          SetValue($message,false);
+        }
+        else
+        {
+          if ($Value == "error" && $message == "1")
+            {
+              $text="Drucker ".IPS_GetName(IPS_GetParent($printtime))"hat einen Fehler gemeldet";
+              Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
+              SetValue($message,false);
+            }
+          return 0;
+        }
     }
 
     private function FilamentETA() {
