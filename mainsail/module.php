@@ -64,8 +64,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("Height", "Z Height", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("ObjectHeight", "Object Height", 2, "MAINSAIL.Length", 0, true);
 
-
-        //$this->MaintainVariable("FileSize", "File Size", 2, "MAINSAIL.Size", 0, true);
+        $this->MaintainVariable("Message", "Message", 0, "", 0, true);
         $this->MaintainVariable("FileName", "File Name", 3, "", 0, true);
         $this->MaintainVariable("TotalTime", "Total Time", 3, "", 0, true);
         $this->MaintainVariable("PrintTime", "Print Time", 3, "", 0, true);
@@ -102,7 +101,6 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("Height"), $this->FixupInvalidValue($data->result->status->gcode_move->position[2]));
 
         $data = $this->RequestAPI('/printer/objects/query?print_stats');
-        //SetValue($this->GetIDForIdent("FileSize"), $this->FixupInvalidValue($data->job->file->size) / 1000000);
         SetValue($this->GetIDForIdent("Status"), $data->result->status->print_stats->state);
         SetValue($this->GetIDForIdent("FilamentUsed"), $data->result->status->print_stats->filament_used);
         SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);

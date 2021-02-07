@@ -4,6 +4,7 @@
         { "type": "ValidationTextBox", "name": "Scheme", "caption": "http/https" },
         { "type": "ValidationTextBox", "name": "Host", "caption": "Host of mainsail, e.g. 192.168.0.179" },
         { "type": "ValidationTextBox", "name": "APIKey", "caption": "API Key" },
+        { "type": "ValidationTextBox", "name": "Telegram ID", "caption": "ID des Telegram scripts" },
         { "type": "Label", "label": "Update data every X minutes" },
         { "type": "IntervalBox", "name": "UpdateInterval", "caption": "Minutes" },
         { "type": "CheckBox", "name": "CamEnabled", "caption": "Enable Mainsail Cam" },
