@@ -9,6 +9,7 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyString("Scheme", "http");
         $this->RegisterPropertyString("Host", "");
         $this->RegisterPropertyString("APIKey", "");
+        $this->RegisterPropertyString("TelegramID", "");
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
         $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
