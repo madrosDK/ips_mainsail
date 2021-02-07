@@ -78,8 +78,6 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("FilamentUsed", "Filament used", 2, "MAINSAIL.Length", 0, true);
         $this->MaintainVariable("Test", "Test", 3, "", 0, true);
         $this->CreateThumbnail();  //thumbnail
-        $status_id = IPS_CreateEvent(0);                  //Ausgelöstes Ereignis
-        IPS_SetEventTrigger($status_id, 1, $this->GetIDForIdent("Status"));
 
 
     }
