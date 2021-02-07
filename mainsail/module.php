@@ -226,7 +226,6 @@ class Mainsail extends IPSModule {
               Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
               SetValue($message,false);
             }
-          return 0;
           else
           {
 
