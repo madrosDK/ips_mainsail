@@ -121,7 +121,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("FilemantETA"), $this->CreatePrintFinished($this->FixupInvalidValue($this->FilamentETA())));
-        $this->Telegram($this->GetIDForIdent("Status"));
+        Telegram($this->GetIDForIdent("Status"));
         //Test zum auslesen über ID
 //        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 //        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
@@ -209,20 +209,20 @@ class Mainsail extends IPSModule {
     private function Telegram($Value) {
         $id = $this->ReadPropertyString("TelegramID");
         $message = GetValue($this->GetIDForIdent("Message"));
-        $printtime =GetValue($this->GetIDForIdent("PrintTime"));
-        $recipient =$this->ReadPropertyString("Recipient");
-        include ''$id'.ips.php';
-        if ($Value == "complete" && $message == "1")
+        $printtime = GetValue($this->GetIDForIdent("PrintTime"));
+        $recipient = $this->ReadPropertyString("Recipient");
+        include '' . $id'.ips.php';
+        if ($Value == "complete" && $message == true)
         {
-          $text="Drucker "IPS_GetName(IPS_GetParent($printtime))"ist nach ".$printtime" fertig";
+          $text="Drucker ".IPS_GetName(IPS_GetParent($printtime))"ist nach ".$printtime" fertig";
           Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
           SetValue($message,false);
         }
         else
         {
-          if ($Value == "error" && $message == "1")
+          if ($Value == "error" && $message == true)
             {
-              $text="Drucker "IPS_GetName(IPS_GetParent($printtime))"hat einen Fehler gemeldet";
+              $text="Drucker ".IPS_GetName(IPS_GetParent($printtime))"hat einen Fehler gemeldet";
               Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
               SetValue($message,false);
             }
