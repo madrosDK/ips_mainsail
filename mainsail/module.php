@@ -207,7 +207,7 @@ class Mainsail extends IPSModule {
     }
 
     private function Telegram($Value) {
-        include ''.ReadPropertyString("TelegramID")'.ips.php';
+        include ''.$this->ReadPropertyString("TelegramID")'.ips.php';
         $message = GetValue($this->GetIDForIdent("Message"));
         $id = $this->ReadPropertyString("TelegramID");
         $printtime =GetValue($this->GetIDForIdent("PrintTime"));
