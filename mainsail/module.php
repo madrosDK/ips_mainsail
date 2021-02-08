@@ -211,7 +211,7 @@ class Mainsail extends IPSModule {
         $message = GetValue($this->GetIDForIdent("Message"));
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
         $recipient = $this->ReadPropertyString("Recipient");
-        include '' . $id . '.ips.php';
+        require_once('' . $id . '.ips.php');
         if ($Value == "printing" && $message == true)
         {
           $text="Drucker " . IPS_GetName(IPS_GetParent($printtime)) . "ist nach " . $printtime . " fertig";
