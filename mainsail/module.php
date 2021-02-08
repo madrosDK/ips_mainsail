@@ -207,14 +207,14 @@ class Mainsail extends IPSModule {
     }
 
     private function Telegram($Value) {
-        include ''.$this->ReadPropertyString("TelegramID")'.ips.php';
-        $message = GetValue($this->GetIDForIdent("Message"));
         $id = $this->ReadPropertyString("TelegramID");
+        $message = GetValue($this->GetIDForIdent("Message"));
         $printtime =GetValue($this->GetIDForIdent("PrintTime"));
         $recipient =$this->ReadPropertyString("Recipient");
+        include ''$id'.ips.php';
         if ($Value == "complete" && $message == "1")
         {
-          $text="Drucker ".IPS_GetName(IPS_GetParent($printtime))"ist nach ".$printtime" fertig";
+          $text="Drucker "IPS_GetName(IPS_GetParent($printtime))"ist nach ".$printtime" fertig";
           Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
           SetValue($message,false);
         }
@@ -222,7 +222,7 @@ class Mainsail extends IPSModule {
         {
           if ($Value == "error" && $message == "1")
             {
-              $text="Drucker ".IPS_GetName(IPS_GetParent($printtime))"hat einen Fehler gemeldet";
+              $text="Drucker "IPS_GetName(IPS_GetParent($printtime))"hat einen Fehler gemeldet";
               Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
               SetValue($message,false);
             }
