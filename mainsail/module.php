@@ -218,9 +218,9 @@ class Mainsail extends IPSModule {
         //require_once __DIR__ .'/../libs/Ping.php';
         if (($Value == "printing") && (GetValue($message) == '0'))
         {
-          //$text="Drucker " . IPS_GetName(IPS_GetParent($printtime)) . "ist nach " . $printtime . " fertig";
-          $text = "FERTIG";
-          SetValue($test,$InstanzID);
+          $text="Drucker " . IPS_GetName(IPS_GetParent($printtime)) . "ist nach " . $printtime . " fertig";
+          //$text = "FERTIG";
+          SetValue($test,$text);
           Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
           SetValue($message,false);
         }
