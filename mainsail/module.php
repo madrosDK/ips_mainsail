@@ -206,8 +206,8 @@ class Mainsail extends IPSModule {
         return gmdate("H:i:s", $this->FixupInvalidValue($Value));
     }
 
-/*    private function Telegram($Value) {
-        include .$this->ReadPropertyString("TelegramID")'.ips.php';
+    private function Telegram($Value) {
+        include ''.ReadPropertyString("TelegramID")'.ips.php';
         $message = GetValue($this->GetIDForIdent("Message"));
         $id = $this->ReadPropertyString("TelegramID");
         $printtime =GetValue($this->GetIDForIdent("PrintTime"));
@@ -231,7 +231,7 @@ class Mainsail extends IPSModule {
 
           }
         }
-    }*/
+    }
 
     private function FilamentETA() {
         $filament_used=GetValue($this->GetIDForIdent("FilamentUsed"));
