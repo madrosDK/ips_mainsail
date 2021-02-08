@@ -121,7 +121,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("FilemantETA"), $this->CreatePrintFinished($this->FixupInvalidValue($this->FilamentETA())));
-        Telegram($this->GetIDForIdent("Status"));
+        $this->Telegram($this->GetIDForIdent("Status"));
         //Test zum auslesen über ID
 //        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 //        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
@@ -206,7 +206,7 @@ class Mainsail extends IPSModule {
         return gmdate("H:i:s", $this->FixupInvalidValue($Value));
     }
 
-    public function Telegram($Value) {
+    private function Telegram($Value) {
         $id = $this->ReadPropertyString("TelegramID");
         $message = GetValue($this->GetIDForIdent("Message"));
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
