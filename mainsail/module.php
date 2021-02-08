@@ -217,7 +217,7 @@ class Mainsail extends IPSModule {
         {
           $text="" . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " ist nach " . $printtime . " fertig";
           SetValue($test,$recipient);
-          Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
+          Telegram_SendText($InstanzID, $text, $tg_Daniel, $ParseMode='Markdown');
           SetValue($message,false);
         }
         else
