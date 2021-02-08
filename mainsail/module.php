@@ -216,7 +216,6 @@ class Mainsail extends IPSModule {
         if (($Value == "complete") && (GetValue($message) == '1'))
         {
           $text="" . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " ist nach " . $printtime . " fertig";
-          SetValue($test,$recipient);
           Telegram_SendText($InstanzID, $text, $this->ReadPropertyString("Recipient"), $ParseMode='Markdown');
           SetValue($message,false);
         }
