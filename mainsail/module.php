@@ -212,8 +212,8 @@ class Mainsail extends IPSModule {
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
         $recipient = $this->ReadPropertyString("Recipient");
         //require_once('' . $id . '.ips.php');
-        //include('' . IPS_GetScriptFile($id) . '');
-        include('45855.ips.php');
+        require_once(IPS_GetKernelDir() . "/scripts/" . IPS_GetScriptFile($id));
+        //include(IPS_GetScriptFile($id));
         //require_once __DIR__ .'/../libs/Ping.php';
         if ($Value == "printing" && $message == true)
         {
