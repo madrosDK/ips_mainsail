@@ -212,14 +212,10 @@ class Mainsail extends IPSModule {
         $test = $this->GetIDForIdent("Test");
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
         $recipient = $this->ReadPropertyString("Recipient");
-        //require_once('' . $id . '.ips.php');
         include(IPS_GetKernelDir() . 'scripts/' . IPS_GetScriptFile($id));
-        //include(IPS_GetScriptFile($id));
-        //require_once __DIR__ .'/../libs/Ping.php';
-        if (($Value == "printing") && (GetValue($message) == '0'))
+        if (($Value == "complete") && (GetValue($message) == '1'))
         {
-          $text="Drucker " . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " ist nach " . $printtime . " fertig";
-          //$text = "FERTIG";
+          $text="" . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " ist nach " . $printtime . " fertig";
           SetValue($test,$text);
           Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
           SetValue($message,false);
@@ -228,7 +224,7 @@ class Mainsail extends IPSModule {
         {
             if (($Value == "error") && (GetValue($message) == '1'))
             {
-              $text="Drucker " . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " hat einen Fehler gemeldet";
+              $text="" . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " hat einen Fehler gemeldet";
               Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
               SetValue($message,false);
             }
