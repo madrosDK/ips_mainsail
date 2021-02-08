@@ -215,7 +215,7 @@ class Mainsail extends IPSModule {
         include(IPS_GetKernelDir() . 'scripts/' . IPS_GetScriptFile($id));
         //include(IPS_GetScriptFile($id));
         //require_once __DIR__ .'/../libs/Ping.php';
-        if ($Value == "printing" && $message == true)
+        if ($Value == "printing" && $message == '1')
         {
           $text="Drucker " . IPS_GetName(IPS_GetParent($printtime)) . "ist nach " . $printtime . " fertig";
           Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
@@ -223,7 +223,7 @@ class Mainsail extends IPSModule {
         }
         else
         {
-          if ($Value == "error" && $message == true)
+          if ($Value == "error" && $message == '1')
             {
               $text="Drucker " . IPS_GetName(IPS_GetParent($printtime)) . "hat einen Fehler gemeldet";
               Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
@@ -231,6 +231,7 @@ class Mainsail extends IPSModule {
             }
           else
           {
+print_r($Value);
             SetValue($message,false);
           }
         }
