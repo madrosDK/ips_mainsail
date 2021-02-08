@@ -209,16 +209,18 @@ class Mainsail extends IPSModule {
     private function Telegram($Value) {
         $id = $this->ReadPropertyString("TelegramID");
         $message = $this->GetIDForIdent("Message");
+        $test = $this->GetIDForIdent("Test");
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
         $recipient = $this->ReadPropertyString("Recipient");
         //require_once('' . $id . '.ips.php');
         include(IPS_GetKernelDir() . 'scripts/' . IPS_GetScriptFile($id));
         //include(IPS_GetScriptFile($id));
         //require_once __DIR__ .'/../libs/Ping.php';
-        if (($Value == "printing") && (GetValue($message) == '1'))
+        if (($Value == "printing") && (GetValue($message) == '0'))
         {
           //$text="Drucker " . IPS_GetName(IPS_GetParent($printtime)) . "ist nach " . $printtime . " fertig";
           $text = "FERTIG";
+          SetValue($test,$InstanzID);
           Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
           SetValue($message,false);
         }
