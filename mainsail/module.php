@@ -10,7 +10,7 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyString("Host", "");
         $this->RegisterPropertyString("APIKey", "");
         $this->RegisterPropertyString("TelegramID", "");
-        $this->RegisterPropertyInteger("Recipient", "");
+        $this->RegisterPropertyString("Recipient", "");
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
         $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
@@ -211,13 +211,13 @@ class Mainsail extends IPSModule {
         $message = $this->GetIDForIdent("Message");
         $test = $this->GetIDForIdent("Test");
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
-        $recipient = $this->ReadPropertyInteger("Recipient");
+        $recipient = $this->ReadPropertyString("Recipient");
         include(IPS_GetKernelDir() . 'scripts/' . IPS_GetScriptFile($id));
         if (($Value == "printing") && (GetValue($message) == '0'))
         {
           $text="" . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " ist nach " . $printtime . " fertig";
           SetValue($test,$recipient);
-          Telegram_SendText($InstanzID, $text, $recipient, $ParseMode='Markdown');
+          Telegram_SendText($InstanzID, $text, $this->ReadPropertyString("Recipient"), $ParseMode='Markdown');
           SetValue($message,false);
         }
         else
