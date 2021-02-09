@@ -115,7 +115,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
         $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-        SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{output_pin caselight}->value));
+        SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
 
         if (GetValue($this->GetIDForIdent("Status")) == "standby")
         {
