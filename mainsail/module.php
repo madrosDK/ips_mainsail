@@ -114,7 +114,6 @@ class Mainsail extends IPSModule {
 
         if (GetValue($this->GetIDForIdent("Status")) == "standby")
         {
-
         }
         else
         {
@@ -214,12 +213,12 @@ class Mainsail extends IPSModule {
     }
 
     private function Telegram($Value) {
-        $id = $this->ReadPropertyString("TelegramID");
+        $InstanzID = $this->ReadPropertyString("TelegramID");
         $message = $this->GetIDForIdent("Message");
         $test = $this->GetIDForIdent("Test");
         $printtime = GetValue($this->GetIDForIdent("PrintTime"));
         $recipient = $this->ReadPropertyString("Recipient");
-        include(IPS_GetKernelDir() . 'scripts/' . IPS_GetScriptFile($id));
+        //include(IPS_GetKernelDir() . 'scripts/' . IPS_GetScriptFile($id));
         if (($Value == "complete") && (GetValue($message) == '1'))
         {
           $text="" . IPS_GetName(IPS_GetParent($this->GetIDForIdent("PrintTime"))) . " ist nach " . $printtime . " fertig";
