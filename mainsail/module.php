@@ -112,9 +112,9 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
-        if ($this->GetIDForIdent("Status") == "standby")
+        if (GetValue($this->GetIDForIdent("Status")) == "standby")
         {
-          
+
         }
         else
         {
