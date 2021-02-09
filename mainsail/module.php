@@ -115,7 +115,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
         $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-        SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->output_pin%20caselight->value));
+        SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->output_pin caselight->value));
 
         if (GetValue($this->GetIDForIdent("Status")) == "standby")
         {
@@ -161,7 +161,7 @@ class Mainsail extends IPSModule {
                   $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
                   $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
                   $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->output_pin%20caselight->value));
+                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->output_pin caselight->value));
                 }
               else
                 {
@@ -169,7 +169,7 @@ class Mainsail extends IPSModule {
                   $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
                   $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
                   $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->output_pin%20caselight->value));
+                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->output_pin caselight->value));
                 }
                   break;
               default:
