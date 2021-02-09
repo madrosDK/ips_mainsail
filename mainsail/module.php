@@ -112,11 +112,18 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
-        $data = $this->RequestAPI('/server/files/metadata?filename='.str_replace('+','%2B',GetValue($this->GetIDForIdent("FileName"))));
-        SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
-        SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
-        SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
-        IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), $data->result->thumbnails[1]->data);
+        if ($this->GetIDForIdent("Status") == "standby")
+        {
+          
+        }
+        else
+        {
+          $data = $this->RequestAPI('/server/files/metadata?filename='.str_replace('+','%2B',GetValue($this->GetIDForIdent("FileName"))));
+          SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
+          SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
+          SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
+          IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), $data->result->thumbnails[1]->data);
+        }
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
