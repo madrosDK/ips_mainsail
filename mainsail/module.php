@@ -16,8 +16,8 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
 
         $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
-        $this->RegisterScript("NeopixelsOn", "Neopixels On", "<?php\n\nMAINSAIL_LightsOn(" . $this->InstanceID . ");", 0);
-        $this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nMAINSAIL_LightsOff(" . $this->InstanceID . ");", 0);
+        //$this->RegisterScript("NeopixelsOn", "Neopixels On", "<?php\n\nMAINSAIL_LightsOn(" . $this->InstanceID . ");", 0);
+        //$this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nMAINSAIL_LightsOff(" . $this->InstanceID . ");", 0);
 
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
@@ -67,6 +67,8 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("ObjectHeight", "Object Height", 2, "MAINSAIL.Length", 0, true);
 
         $this->MaintainVariable("Message", "Message", 0, "", 0, true);
+        $this->MaintainVariable("Licht", "Licht", 0, "", 0, true);
+        $this->EnableAction("Licht");
         $this->MaintainVariable("FileName", "File Name", 3, "", 0, true);
         $this->MaintainVariable("TotalTime", "Total Time", 3, "", 0, true);
         $this->MaintainVariable("PrintTime", "Print Time", 3, "", 0, true);
@@ -146,6 +148,28 @@ class Mainsail extends IPSModule {
             $this->httpGet($url . "/plugin/enclosure/setNeopixel?index_id=1&red=255&green=255&blue=255");
         }
     }
+
+    public function RequestAction($Ident, $Value) {
+      switch($Ident) {
+              case "Licht":
+              if (GetValue($this->GetIDForIdent($Ident)) == "1")
+                {
+                  //SetValue($this->GetIDForIdent($Ident), "0");
+                  $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
+                  $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
+                }
+              else
+                {
+                  //SetValue($this->GetIDForIdent($Ident), "1");
+                  $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
+                  $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
+                }
+                  break;
+              default:
+                  throw new Exception("Invalid Ident");
+          }
+
+      }
 
     private function RequestAPI($path) {
         $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
