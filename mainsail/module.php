@@ -166,7 +166,7 @@ class Mainsail extends IPSModule {
                 {
                   //SetValue($this->GetIDForIdent($Ident), "0");
                   $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
-                  $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
+                  $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
                   $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
                   SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
                 }
@@ -174,7 +174,7 @@ class Mainsail extends IPSModule {
                 {
                   //SetValue($this->GetIDForIdent($Ident), "1");
                   $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
-                  $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
+                  $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
                   $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
                   SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
                 }
