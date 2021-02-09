@@ -67,7 +67,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("ObjectHeight", "Object Height", 2, "MAINSAIL.Length", 0, true);
 
         $this->MaintainVariable("Message", "Message", 0, "", 0, true);
-        $this->MaintainVariable("Licht", "Licht", 3, "", 0, true);
+        $this->MaintainVariable("Licht", "Licht", 0, "", 0, true);
         $this->EnableAction("Licht");
         $this->MaintainVariable("FileName", "File Name", 3, "", 0, true);
         $this->MaintainVariable("TotalTime", "Total Time", 3, "", 0, true);
@@ -115,7 +115,7 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
         $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-        SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data['result']['status']['output_pin caselight']['value']));
+        SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{output_pin caselight}->value));
 
         if (GetValue($this->GetIDForIdent("Status")) == "standby")
         {
