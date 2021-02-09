@@ -13,6 +13,7 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyString("Recipient", "");
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
+        $this->RegisterPropertyBoolean("Licht", false);
         $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
 
         $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
@@ -114,8 +115,14 @@ class Mainsail extends IPSModule {
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
-        $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-        SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
+        if ($this->ReadPropertyBoolean("Licht"))
+        {
+          $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
+          SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
+        }
+        else {
+          return 0;
+        }
 
         if (GetValue($this->GetIDForIdent("Status")) == "standby")
         {
@@ -161,7 +168,7 @@ class Mainsail extends IPSModule {
                   $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
                   $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
                   $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data['result']['status']['output_pin caselight']['value']));
+                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
                 }
               else
                 {
@@ -169,7 +176,7 @@ class Mainsail extends IPSModule {
                   $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
                   $this->httpGet($url . "printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
                   $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data['result']['status']['output_pin caselight']['value']));
+                  SetValue($this->GetIDForIdent("Licht"),$this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
                 }
                   break;
               default:
