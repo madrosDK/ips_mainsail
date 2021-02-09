@@ -86,7 +86,8 @@ class Mainsail extends IPSModule {
         $ping = Ping($this->ReadPropertyString("Host"));
         if ($ping != false) {
             $this->SendDebug(__FUNCTION__, 'Mainsail is offline', 0);
-            IPS_SetMediaContent(@IPS_GetMediaIDByName("Cam Stream", $this->InstanceID), "R0lGODdhEAAQAMwAAPj7+FmhUYjNfGuxYYDJdYTIeanOpT+DOTuANXi/bGOrWj6CONzv2sPjv2CmV1unU4zPgISg6DJnJ3ImTh8Mtbs00aNP1CZSGy0YqLEn47RgXW8amasW7XWsmmvX2iuXiwAAAAAEAAQAAAFVyAgjmRpnihqGCkpDQPbGkNUOFk6DZqgHCNGg2T4QAQBoIiRSAwBE4VA4FACKgkB5NGReASFZEmxsQ0whPDi9BiACYQAInXhwOUtgCUQoORFCGt/g4QAIQA7");
+            //IPS_SetMediaContent(@IPS_GetMediaIDByName("Cam Stream", $this->InstanceID), "R0lGODdhEAAQAMwAAPj7+FmhUYjNfGuxYYDJdYTIeanOpT+DOTuANXi/bGOrWj6CONzv2sPjv2CmV1unU4zPgISg6DJnJ3ImTh8Mtbs00aNP1CZSGy0YqLEn47RgXW8amasW7XWsmmvX2iuXiwAAAAAEAAQAAAFVyAgjmRpnihqGCkpDQPbGkNUOFk6DZqgHCNGg2T4QAQBoIiRSAwBE4VA4FACKgkB5NGReASFZEmxsQ0whPDi9BiACYQAInXhwOUtgCUQoORFCGt/g4QAIQA7");
+            IPS_SetMediaFile(@IPS_GetMediaIDByName("Cam Stream", $this->InstanceID), __DIR__.'/media/na.jpg', true);
             return;
           }
         IPS_SetMediaFile(@IPS_GetMediaIDByName("Cam Stream", $this->InstanceID), $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host") . ':8080/?action=stream', true);
