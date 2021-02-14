@@ -14,12 +14,9 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
         $this->RegisterPropertyBoolean("Licht", false);
-        $this->RegisterPropertyBoolean("EnclosureNeopixel", false);
 
         $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
-        //$this->RegisterScript("NeopixelsOn", "Neopixels On", "<?php\n\nMAINSAIL_LightsOn(" . $this->InstanceID . ");", 0);
-        //$this->RegisterScript("NeopixelsOff", "Neopixels Off", "<?php\n\nMAINSAIL_LightsOff(" . $this->InstanceID . ");", 0);
-
+    
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
         $this->CreateVarProfile("MAINSAIL.Length", 2, " mm", 0, 500, 0.1, 1, "Distance");
@@ -143,20 +140,6 @@ class Mainsail extends IPSModule {
         //Test zum auslesen über ID
 //        SetValue($this->GetIDForIdent("Test"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
 //        SetValue($this->GetIDForIdent("PrintFinished"), $this->CreatePrintFinished($data->result->status->print_stats->print_duration));
-    }
-
-    public function LightsOff() {
-        if ($this->ReadPropertyBoolean("EnclosureNeopixel")) {
-            $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
-            $this->httpGet($url . "/plugin/enclosure/setNeopixel?index_id=1&red=0&green=0&blue=0");
-        }
-    }
-
-    public function LightsOn() {
-        if ($this->ReadPropertyBoolean("EnclosureNeopixel")) {
-            $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
-            $this->httpGet($url . "/plugin/enclosure/setNeopixel?index_id=1&red=255&green=255&blue=255");
-        }
     }
 
     public function RequestAction($Ident, $Value) {
