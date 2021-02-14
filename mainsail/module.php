@@ -16,7 +16,7 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyBoolean("Licht", false);
 
         $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
-    
+
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
         $this->CreateVarProfile("MAINSAIL.Length", 2, " mm", 0, 500, 0.1, 1, "Distance");
@@ -108,14 +108,13 @@ class Mainsail extends IPSModule {
         SetValue($this->GetIDForIdent("FileName"), $data->result->status->print_stats->filename);
         SetValue($this->GetIDForIdent("PrintTime"), $this->CreateDuration($data->result->status->print_stats->print_duration));
 
-
         $data = $this->RequestAPI('/printer/objects/query?virtual_sdcard');
         SetValue($this->GetIDForIdent("ProgressCompletion"), $this->FixupInvalidValue($data->result->status->virtual_sdcard->progress*100));
 
       //  if ($this->ReadPropertyBoolean("Licht") == true)
       //  {
-          $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-          SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
+        $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
+        SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
       //  }
       //  else {
       //    return 0;
@@ -133,7 +132,8 @@ class Mainsail extends IPSModule {
           IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), $data->result->thumbnails[1]->data);
         }
 
-        SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
+        //SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
+        SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->FixupInvalidValue($this->FilamentETA())));
         SetValue($this->GetIDForIdent("SlicerETA"), $this->CreatePrintFinished($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
         SetValue($this->GetIDForIdent("FilemantETA"), $this->CreatePrintFinished($this->FixupInvalidValue($this->FilamentETA())));
         $this->Telegram(GetValue($this->GetIDForIdent("Status")));
