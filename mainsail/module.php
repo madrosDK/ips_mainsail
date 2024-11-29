@@ -130,7 +130,7 @@ class Mainsail extends IPSModule {
           SetValue($this->GetIDForIdent("Filament"), $this->FixupInvalidValue($data->result->filament_total));
           SetValue($this->GetIDForIdent("TotalTime"), $this->CreateDuration($data->result->estimated_time));
           SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
-          SetValue($this->GetIDForIdent("testname"), $data->result->thumbnails[1]->relative_path);
+          SetValue($this->GetIDForIdent("testname"), RequestAPI('/server/files/gcodes/'.$data->result->thumbnails[1]->relative_path);
          // IPS_SetMediaFile($this->GetIDForIdent("thumbnail"), $url.$data->result->thumbnails[1]->relative_path),true);
           //IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), RequestAPI('/server/files/gcodes/'.$data->result->thumbnails[1]->relative_path);
         }
