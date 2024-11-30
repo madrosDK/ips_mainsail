@@ -13,7 +13,7 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyString("Recipient", "");
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
-        $this->RegisterPropertyBoolean("Licht", false);
+        $this->RegisterPropertyInteger("Licht", 0);
 
         $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
 
