@@ -65,7 +65,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("ObjectHeight", "Object Height", 2, "MAINSAIL.Length", 0, true);
 
         $this->MaintainVariable("Message", "Message", 0, "", 0, true);
-        $this->MaintainVariable("Licht", "Licht", 0, "", 0, true);
+        $this->MaintainVariable("Licht", "Licht", 1, "%", 0, true);
         $this->EnableAction("Licht");
         $this->MaintainVariable("FileName", "File Name", 3, "", 0, true);
         $this->MaintainVariable("TotalTime", "Total Time", 3, "", 0, true);
