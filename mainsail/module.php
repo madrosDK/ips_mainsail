@@ -13,14 +13,13 @@ class Mainsail extends IPSModule {
         $this->RegisterPropertyString("Recipient", "");
         $this->RegisterPropertyInteger("UpdateInterval", 1);
         $this->RegisterPropertyBoolean("CamEnabled", false);
-        $this->RegisterPropertyInteger("Licht", 0);
+        $this->RegisterPropertyBoolean("Licht", false);
 
         $this->RegisterTimer("Update", $this->ReadPropertyInteger("UpdateInterval"), 'MAINSAIL_UpdateData($_IPS[\'TARGET\']);');
 
         $this->CreateVarProfile("MAINSAIL.Size", 2, " MB", 0, 9999, 0, 1, "Database");
         $this->CreateVarProfile("MAINSAIL.Completion", 2, " %", 0, 100, 0.01, 2, "Hourglass");
         $this->CreateVarProfile("MAINSAIL.Length", 2, " mm", 0, 500, 0.1, 1, "Distance");
-        $this->CreateVarProfile("MAINSAIL.Completion.Int", 1, " %", 0, 100, 0.01, 2, "Hourglass");
 
     }
 
@@ -66,7 +65,7 @@ class Mainsail extends IPSModule {
         $this->MaintainVariable("ObjectHeight", "Object Height", 2, "MAINSAIL.Length", 0, true);
 
         $this->MaintainVariable("Message", "Message", 0, "", 0, true);
-        $this->MaintainVariable("Licht", "Licht", 1, "MAINSAIL.Completion.Int", 0, true);
+        $this->MaintainVariable("Licht", "Licht", 2, "MAINSAIL.Completion", 0, true);
         $this->EnableAction("Licht");
         $this->MaintainVariable("FileName", "File Name", 3, "", 0, true);
         $this->MaintainVariable("TotalTime", "Total Time", 3, "", 0, true);
