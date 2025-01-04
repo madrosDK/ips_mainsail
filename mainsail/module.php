@@ -209,7 +209,7 @@ class Mainsail extends IPSModule {
     if (!$media) //@ unterdrückt Meldung
       {
         $media = IPS_CreateMedia(1);
-        $ImageFile = __DIR__.'/media/na.jpg';
+        $ImageFile = __DIR__.'/media/thumbnail_' . $this->InstanceID . '.jpg';
         IPS_SetParent($media, $this->InstanceID);
         IPS_SetIdent($media, "thumbnail");
         IPS_SetName($media, "thumbnail");
