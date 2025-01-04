@@ -203,26 +203,6 @@ class Mainsail extends IPSModule {
         }
     }
 
-  /*
-    private function CreateThumbnail() {
-    $media=@IPS_GetObjectIDByName("thumbnail", $this->InstanceID);
-    if (!$media) //@ unterdrückt Meldung
-      {
-        $media = IPS_CreateMedia(1);
-        $ImageFile = __DIR__.'/media/thumbnail_' . $this->InstanceID . '.jpg';
-        IPS_SetParent($media, $this->InstanceID);
-        IPS_SetIdent($media, "thumbnail");
-        IPS_SetName($media, "thumbnail");
-        IPS_SetMediaFile($media, $ImageFile, true);
-        //IPS_SetMediaContent($media, "R0lGODdhEAAQAMwAAPj7+FmhUYjNfGuxYYDJdYTIeanOpT+DOTuANXi/bGOrWj6CONzv2sPjv2CmV1unU4zPgISg6DJnJ3ImTh8Mtbs00aNP1CZSGy0YqLEn47RgXW8amasW7XWsmmvX2iuXiwAAAAAEAAQAAAFVyAgjmRpnihqGCkpDQPbGkNUOFk6DZqgHCNGg2T4QAQBoIiRSAwBE4VA4FACKgkB5NGReASFZEmxsQ0whPDi9BiACYQAInXhwOUtgCUQoORFCGt/g4QAIQA7");
-      }
-    else
-      {
-        return 0;
-      }
-    }
-      */
-
       private function CreateThumbnail() {
           // Erstelle einen einzigartigen Dateipfad basierend auf der InstanceID
           $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
