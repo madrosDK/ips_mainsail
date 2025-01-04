@@ -225,8 +225,11 @@ class Mainsail extends IPSModule {
       */
 
       private function CreateThumbnail() {
-          // Erstelle einen einzigartigen Dateipfad für das Thumbnail basierend auf der InstanceID
+          // Erstelle eine einzigartige Bilddatei basierend auf der InstanceID
           $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
+
+          // Immer zu Beginn eine einzigartige Kopie der na.jpg-Datei erstellen
+          $this->createUniqueImage($imageFileName);
 
           // Prüfen, ob das Medienobjekt bereits existiert
           $media = IPS_GetObjectIDByName("thumbnail", $this->InstanceID);
@@ -263,15 +266,13 @@ class Mainsail extends IPSModule {
                       IPS_SetMediaFile($media, $imageFileName, true);
                   } else {
                       // Fehler beim Herunterladen des Thumbnails
-                      IPS_LogMessage("Mainsail", "Fehler beim Herunterladen des Thumbnails: " . $curl_error . ". Standardbild wird verwendet.");
-                      $this->createUniqueImage(); // Einzigartiges Bild von na.jpg erstellen
-                      IPS_SetMediaFile($media, $imageFileName, true);
+                      IPS_LogMessage("Mainsail", "Fehler beim Herunterladen des Thumbnails: " . $curl_error . ". Das Standardbild wird verwendet.");
+                      IPS_SetMediaFile($media, $imageFileName, true); // Setze das Fallback-Bild
                   }
               } else {
                   // Kein Thumbnail-Pfad vorhanden: Standardbild verwenden
-                  IPS_LogMessage("Mainsail", "Kein Thumbnail-Pfad gefunden. Einzigartiges Bild wird von na.jpg erstellt.");
-                  $this->createUniqueImage(); // Einzigartiges Bild von na.jpg erstellen
-                  IPS_SetMediaFile($media, $imageFileName, true);
+                  IPS_LogMessage("Mainsail", "Kein Thumbnail-Pfad gefunden. Das Standardbild wird verwendet.");
+                  IPS_SetMediaFile($media, $imageFileName, true); // Setze das Fallback-Bild
               }
           } else {
               // Das Medienobjekt existiert bereits
@@ -280,10 +281,7 @@ class Mainsail extends IPSModule {
       }
 
       // Diese Funktion erstellt eine einzigartige Kopie von na.jpg
-      private function createUniqueImage() {
-          // Definiere den Dateipfad für das neue, einzigartige Bild
-          $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
-
+      private function createUniqueImage($imageFileName) {
           // Lese das Standardbild na.jpg
           $defaultImagePath = __DIR__ . '/media/na.jpg';
 
