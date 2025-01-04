@@ -135,7 +135,6 @@ class Mainsail extends IPSModule {
           SetValue($this->GetIDForIdent("testname"), $data->result->thumbnails[2]->relative_path);
 
           $base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
-          //IPS_SetMediaFile($this->GetIDForIdent("thumbnail"), $url.$data->result->thumbnails[1]->relative_path),true);
           IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents($base_url . '/server/files/gcodes/' . $data->result->thumbnails[2]->relative_path)));
         }
 
@@ -243,40 +242,8 @@ class Mainsail extends IPSModule {
               IPS_SetIdent($media, "thumbnail");
               IPS_SetName($media, "thumbnail");
 
-              // Überprüfe, ob ein Thumbnail-Pfad vorhanden ist
-              $data = $this->RequestAPI('/server/files/metadata?filename=' . str_replace('+', '%2B', GetValue($this->GetIDForIdent("FileName"))));
-              $thumbnailPath = isset($data->result->thumbnails[1]->relative_path) ? $data->result->thumbnails[1]->relative_path : '';
-
-              // Wenn der Pfad vorhanden ist, versuche das Thumbnail herunterzuladen
-              if ($thumbnailPath) {
-                  $base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
-                  $thumbnail_url = $base_url . '/server/files/gcodes/' . $thumbnailPath;
-
-                  // Versuche das Bild mit cURL herunterzuladen
-                  $ch = curl_init($thumbnail_url);
-                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Weiterleitungen folgen, falls vorhanden
-                  $content = curl_exec($ch);
-                  $curl_error = curl_error($ch);
-                  curl_close($ch);
-
-                  // Überprüfe, ob der Download erfolgreich war
-                  if ($content && !$curl_error) {
-                      // Speichere das heruntergeladene Thumbnail in der einzigartigen Bilddatei
-                      file_put_contents($imageFileName, $content);
-
-                      // Setze das Bild für das Modul
-                      IPS_SetMediaFile($media, $imageFileName, true);
-                  } else {
-                      // Fehler beim Herunterladen des Thumbnails
-                      IPS_LogMessage("Mainsail", "Fehler beim Herunterladen des Thumbnails: " . $curl_error . ". Das Standardbild wird verwendet.");
-                      IPS_SetMediaFile($media, $imageFileName, true); // Setze das Fallback-Bild
-                  }
-              } else {
-                  // Kein Thumbnail-Pfad vorhanden: Standardbild verwenden
-                  IPS_LogMessage("Mainsail", "Kein Thumbnail-Pfad gefunden. Das Standardbild wird verwendet.");
-                  IPS_SetMediaFile($media, $imageFileName, true); // Setze das Fallback-Bild
-              }
+              // Setze die Mediendatei auf die neu erstellte einzigartige Datei
+              IPS_SetMediaFile($media, $imageFileName, true);
           } else {
               // Wenn das Medienobjekt schon existiert, aktualisiere die Bilddatei
               IPS_SetMediaFile($media, $imageFileName, true); // Setze die heruntergeladene Datei
@@ -289,8 +256,8 @@ class Mainsail extends IPSModule {
           if (file_exists($templateImagePath)) {
               copy($templateImagePath, $imageFileName); // Kopiere na.jpg als Ausgangsbasis
           } else {
-              IPS_LogMessage("Mainsail", "Die Vorlage na.jpg wurde nicht gefunden. Standardbild wird verwendet.");
-              touch($imageFileName); // Erstelle eine leere Datei, wenn na.jpg fehlt
+              // Wenn na.jpg nicht existiert, erstelle einfach eine leere Datei als Platzhalter
+              touch($imageFileName);
           }
       }
 
