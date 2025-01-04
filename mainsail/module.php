@@ -221,6 +221,7 @@ class Mainsail extends IPSModule {
       {
         return 0;
       }
+    }
       */
 
       private function CreateThumbnail() {
@@ -256,7 +257,7 @@ class Mainsail extends IPSModule {
               return 0; // Keine Aktion erforderlich
           }
       }
-  }
+
 
     private function CreateVarProfile($name, $ProfileType, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Icon) {
         if (!IPS_VariableProfileExists($name)) {
