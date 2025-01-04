@@ -228,8 +228,10 @@ class Mainsail extends IPSModule {
           // Erstelle einen einzigartigen Dateipfad basierend auf der InstanceID
           $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
 
-          // Immer zu Beginn eine einzigartige Kopie der na.jpg-Datei erstellen
-          $this->createUniqueImage($imageFileName);
+          // Stelle sicher, dass das Bild immer eine Kopie von na.jpg ist, wenn noch keine Datei existiert
+          if (!file_exists($imageFileName)) {
+              $this->createUniqueImage($imageFileName); // Kopiere na.jpg als Grundlage
+          }
 
           // Prüfen, ob das Medienobjekt bereits existiert
           $media = IPS_GetObjectIDByName("thumbnail", $this->InstanceID);
@@ -277,6 +279,17 @@ class Mainsail extends IPSModule {
           } else {
               // Das Medienobjekt existiert bereits
               return 0; // Keine Aktion erforderlich
+          }
+      }
+
+      private function createUniqueImage($imageFileName) {
+          // Erstelle eine Kopie von na.jpg und speichere sie als unique image
+          $templateImagePath = __DIR__ . '/media/na.jpg';
+          if (file_exists($templateImagePath)) {
+              copy($templateImagePath, $imageFileName); // Kopiere na.jpg als Ausgangsbasis
+          } else {
+              IPS_LogMessage("Mainsail", "Die Vorlage na.jpg wurde nicht gefunden. Standardbild wird verwendet.");
+              touch($imageFileName); // Erstelle eine leere Datei, wenn na.jpg fehlt
           }
       }
 
