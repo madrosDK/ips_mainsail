@@ -255,6 +255,7 @@ class Mainsail extends IPSModule {
                   // Versuche das Bild mit cURL herunterzuladen
                   $ch = curl_init($thumbnail_url);
                   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Weiterleitungen folgen, falls vorhanden
                   $content = curl_exec($ch);
                   $curl_error = curl_error($ch);
                   curl_close($ch);
