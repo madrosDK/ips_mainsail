@@ -134,9 +134,9 @@ class Mainsail extends IPSModule {
 
           SetValue($this->GetIDForIdent("testname"), $data->result->thumbnails[1]->relative_path);
 
-          $data_url = $this->RequestAPI('/server/files/gcodes/');
+          $base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
           //IPS_SetMediaFile($this->GetIDForIdent("thumbnail"), $url.$data->result->thumbnails[1]->relative_path),true);
-          IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents($data_url . $data->result->thumbnails[1]->relative_path)));
+          IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents($base_url . '/server/files/gcodes/' . $data->result->thumbnails[1]->relative_path)));
         }
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
