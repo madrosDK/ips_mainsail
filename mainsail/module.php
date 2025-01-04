@@ -278,8 +278,8 @@ class Mainsail extends IPSModule {
                   IPS_SetMediaFile($media, $imageFileName, true); // Setze das Fallback-Bild
               }
           } else {
-              // Das Medienobjekt existiert bereits
-              return 0; // Keine Aktion erforderlich
+              // Wenn das Medienobjekt schon existiert, aktualisiere die Bilddatei
+              IPS_SetMediaFile($media, $imageFileName, true); // Setze die heruntergeladene Datei
           }
       }
 
@@ -293,6 +293,7 @@ class Mainsail extends IPSModule {
               touch($imageFileName); // Erstelle eine leere Datei, wenn na.jpg fehlt
           }
       }
+
 
 
     private function CreateVarProfile($name, $ProfileType, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Icon) {
