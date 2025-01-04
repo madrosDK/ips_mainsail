@@ -134,9 +134,9 @@ class Mainsail extends IPSModule {
 
           SetValue($this->GetIDForIdent("testname"), $data->result->thumbnails[2]->relative_path);
 
-          //$base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
+          $base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
           //IPS_SetMediaFile($this->GetIDForIdent("thumbnail"), $url.$data->result->thumbnails[1]->relative_path),true);
-          //IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents($base_url . '/server/files/gcodes/' . $data->result->thumbnails[2]->relative_path)));
+          IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents($base_url . '/server/files/gcodes/' . $data->result->thumbnails[2]->relative_path)));
         }
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
@@ -277,21 +277,6 @@ class Mainsail extends IPSModule {
           } else {
               // Das Medienobjekt existiert bereits
               return 0; // Keine Aktion erforderlich
-          }
-      }
-
-      // Diese Funktion erstellt eine einzigartige Kopie von na.jpg
-      private function createUniqueImage($imageFileName) {
-          // Lese das Standardbild na.jpg
-          $defaultImagePath = __DIR__ . '/media/na.jpg';
-
-          // Prüfe, ob das Standardbild existiert
-          if (file_exists($defaultImagePath)) {
-              // Kopiere das Standardbild nach dem neuen, einzigartigen Pfad
-              copy($defaultImagePath, $imageFileName);
-          } else {
-              // Wenn na.jpg nicht gefunden wurde, logge einen Fehler
-              IPS_LogMessage("Mainsail", "na.jpg wurde nicht gefunden. Kann kein Standardbild erstellen.");
           }
       }
 
