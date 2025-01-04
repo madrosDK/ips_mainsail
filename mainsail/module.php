@@ -204,6 +204,7 @@ class Mainsail extends IPSModule {
         }
     }
 
+  /*
     private function CreateThumbnail() {
     $media=@IPS_GetObjectIDByName("thumbnail", $this->InstanceID);
     if (!$media) //@ unterdrückt Meldung
@@ -220,8 +221,43 @@ class Mainsail extends IPSModule {
       {
         return 0;
       }
+      */
 
+      private function CreateThumbnail() {
+          // Erstelle einen einzigartigen Dateipfad für das Thumbnail basierend auf der InstanceID
+          $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
+
+          // Prüfen, ob das Medienobjekt bereits existiert
+          $media = IPS_GetObjectIDByName("thumbnail", $this->InstanceID);
+
+          if (!$media) {
+              // Medienobjekt existiert nicht - erstelle es
+              $media = IPS_CreateMedia(1); // Media-Typ 1 steht für ein Bild
+              IPS_SetParent($media, $this->InstanceID);
+              IPS_SetIdent($media, "thumbnail");
+              IPS_SetName($media, "thumbnail");
+
+              // Überprüfe, ob das eindeutige Bild existiert
+              if (file_exists($imageFileName)) {
+                  // Setze das Bild für das Modul
+                  IPS_SetMediaFile($media, $imageFileName, true);
+              } else {
+                  // Wenn das Bild nicht existiert, kann hier eine Standardaktion oder Log-Meldung eingefügt werden
+                  IPS_LogMessage("Mainsail", "Bild für Modul-ID {$this->InstanceID} wurde nicht gefunden. Standardbild wird verwendet.");
+                  $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf ein Standardbild
+                  IPS_SetMediaFile($media, $ImageFile, true);
+              }
+
+              // Optional: Setze Medieninhalt (Base64-kodiert, falls benötigt)
+              // IPS_SetMediaContent($media, "Base64InhaltHier");
+
+          } else {
+              // Das Medienobjekt existiert bereits
+              return 0; // Keine Aktion erforderlich
+          }
+      }
   }
+
     private function CreateVarProfile($name, $ProfileType, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Icon) {
         if (!IPS_VariableProfileExists($name)) {
             IPS_CreateVariableProfile($name, $ProfileType);                       //0 Boolean; 1 Integer; 2 Float; 3 String
