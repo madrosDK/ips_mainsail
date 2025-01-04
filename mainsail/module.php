@@ -133,10 +133,10 @@ class Mainsail extends IPSModule {
           SetValue($this->GetIDForIdent("ObjectHeight"), $this->FixupInvalidValue($data->result->object_height-0.4));
 
           //$data = $this->RequestAPI('/printer/info');
-          SetValue($this->GetIDForIdent("testname"), RequestAPI('/server/files/gcodes/'.->result->thumbnails[1]->relative_path));
+          //SetValue($this->GetIDForIdent("testname"), RequestAPI('/server/files/gcodes/'.->result->thumbnails[1]->relative_path));
 
           //IPS_SetMediaFile($this->GetIDForIdent("thumbnail"), $url.$data->result->thumbnails[1]->relative_path),true);
-          IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents(RequestAPI('/server/files/gcodes/'.->result->thumbnails[1]->relative_path))));
+          //IPS_SetMediaContent($this->GetIDForIdent("thumbnail"), base64_encode(file_get_contents(RequestAPI('/server/files/gcodes/'.->result->thumbnails[1]->relative_path))));
         }
 
         SetValue($this->GetIDForIdent("PrintTimeLeft"), $this->CreateDuration($this->CreateUnix(GetValue($this->GetIDForIdent("TotalTime")))-$this->CreateUnix(GetValue($this->GetIDForIdent("PrintTime")))));
