@@ -256,7 +256,7 @@ class Mainsail extends IPSModule {
 
                   // Überprüfe, ob der Download erfolgreich war
                   if ($content && !$curl_error) {
-                      // Speichere das Thumbnail im Dateisystem
+                      // Speichere das heruntergeladene Thumbnail im Dateisystem
                       file_put_contents($imageFileName, $content);
 
                       // Setze das Bild für das Modul
@@ -264,19 +264,36 @@ class Mainsail extends IPSModule {
                   } else {
                       // Fehler beim Herunterladen des Thumbnails
                       IPS_LogMessage("Mainsail", "Fehler beim Herunterladen des Thumbnails: " . $curl_error . ". Standardbild wird verwendet.");
-                      $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf Standardbild
-                      IPS_SetMediaFile($media, $ImageFile, true);
+                      $this->createUniqueImage(); // Einzigartiges Bild von na.jpg erstellen
+                      IPS_SetMediaFile($media, $imageFileName, true);
                   }
               } else {
                   // Kein Thumbnail-Pfad vorhanden: Standardbild verwenden
-                  IPS_LogMessage("Mainsail", "Kein Thumbnail-Pfad gefunden. Standardbild wird verwendet.");
-                  $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf Standardbild
-                  IPS_SetMediaFile($media, $ImageFile, true);
+                  IPS_LogMessage("Mainsail", "Kein Thumbnail-Pfad gefunden. Einzigartiges Bild wird von na.jpg erstellt.");
+                  $this->createUniqueImage(); // Einzigartiges Bild von na.jpg erstellen
+                  IPS_SetMediaFile($media, $imageFileName, true);
               }
-
           } else {
               // Das Medienobjekt existiert bereits
               return 0; // Keine Aktion erforderlich
+          }
+      }
+
+      // Diese Funktion erstellt eine einzigartige Kopie von na.jpg
+      private function createUniqueImage() {
+          // Definiere den Dateipfad für das neue, einzigartige Bild
+          $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
+
+          // Lese das Standardbild na.jpg
+          $defaultImagePath = __DIR__ . '/media/na.jpg';
+
+          // Prüfe, ob das Standardbild existiert
+          if (file_exists($defaultImagePath)) {
+              // Kopiere das Standardbild nach dem neuen, einzigartigen Pfad
+              copy($defaultImagePath, $imageFileName);
+          } else {
+              // Wenn na.jpg nicht gefunden wurde, logge einen Fehler
+              IPS_LogMessage("Mainsail", "na.jpg wurde nicht gefunden. Kann kein Standardbild erstellen.");
           }
       }
 
