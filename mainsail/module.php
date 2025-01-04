@@ -242,21 +242,28 @@ class Mainsail extends IPSModule {
               $data = $this->RequestAPI('/server/files/metadata?filename=' . str_replace('+', '%2B', GetValue($this->GetIDForIdent("FileName"))));
               $thumbnailPath = isset($data->result->thumbnails[1]->relative_path) ? $data->result->thumbnails[1]->relative_path : '';
 
-              // Wenn der Pfad vorhanden ist, lade das Thumbnail-Bild
+              // Wenn der Pfad vorhanden ist, versuche das Thumbnail herunterzuladen
               if ($thumbnailPath) {
                   $base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
                   $thumbnail_url = $base_url . '/server/files/gcodes/' . $thumbnailPath;
 
-                  // Versuche, das Thumbnail herunterzuladen
-                  if ($content = @file_get_contents($thumbnail_url)) {
+                  // Versuche das Bild mit cURL herunterzuladen
+                  $ch = curl_init($thumbnail_url);
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                  $content = curl_exec($ch);
+                  $curl_error = curl_error($ch);
+                  curl_close($ch);
+
+                  // Überprüfe, ob der Download erfolgreich war
+                  if ($content && !$curl_error) {
                       // Speichere das Thumbnail im Dateisystem
                       file_put_contents($imageFileName, $content);
 
                       // Setze das Bild für das Modul
                       IPS_SetMediaFile($media, $imageFileName, true);
                   } else {
-                      // Wenn das Thumbnail nicht heruntergeladen werden kann, setze das Standardbild
-                      IPS_LogMessage("Mainsail", "Thumbnail konnte nicht heruntergeladen werden. Standardbild wird verwendet.");
+                      // Fehler beim Herunterladen des Thumbnails
+                      IPS_LogMessage("Mainsail", "Fehler beim Herunterladen des Thumbnails: " . $curl_error . ". Standardbild wird verwendet.");
                       $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf Standardbild
                       IPS_SetMediaFile($media, $ImageFile, true);
                   }
