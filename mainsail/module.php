@@ -238,19 +238,34 @@ class Mainsail extends IPSModule {
               IPS_SetIdent($media, "thumbnail");
               IPS_SetName($media, "thumbnail");
 
-              // Überprüfe, ob das eindeutige Bild existiert
-              if (file_exists($imageFileName)) {
-                  // Setze das Bild für das Modul
-                  IPS_SetMediaFile($media, $imageFileName, true);
+              // Überprüfe, ob ein Thumbnail-Pfad vorhanden ist
+              $data = $this->RequestAPI('/server/files/metadata?filename=' . str_replace('+', '%2B', GetValue($this->GetIDForIdent("FileName"))));
+              $thumbnailPath = isset($data->result->thumbnails[1]->relative_path) ? $data->result->thumbnails[1]->relative_path : '';
+
+              // Wenn der Pfad vorhanden ist, lade das Thumbnail-Bild
+              if ($thumbnailPath) {
+                  $base_url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
+                  $thumbnail_url = $base_url . '/server/files/gcodes/' . $thumbnailPath;
+
+                  // Versuche, das Thumbnail herunterzuladen
+                  if ($content = @file_get_contents($thumbnail_url)) {
+                      // Speichere das Thumbnail im Dateisystem
+                      file_put_contents($imageFileName, $content);
+
+                      // Setze das Bild für das Modul
+                      IPS_SetMediaFile($media, $imageFileName, true);
+                  } else {
+                      // Wenn das Thumbnail nicht heruntergeladen werden kann, setze das Standardbild
+                      IPS_LogMessage("Mainsail", "Thumbnail konnte nicht heruntergeladen werden. Standardbild wird verwendet.");
+                      $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf Standardbild
+                      IPS_SetMediaFile($media, $ImageFile, true);
+                  }
               } else {
-                  // Wenn das Bild nicht existiert, kann hier eine Standardaktion oder Log-Meldung eingefügt werden
-                  IPS_LogMessage("Mainsail", "Bild für Modul-ID {$this->InstanceID} wurde nicht gefunden. Standardbild wird verwendet.");
-                  $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf ein Standardbild
+                  // Kein Thumbnail-Pfad vorhanden: Standardbild verwenden
+                  IPS_LogMessage("Mainsail", "Kein Thumbnail-Pfad gefunden. Standardbild wird verwendet.");
+                  $ImageFile = __DIR__.'/media/na.jpg'; // Fallback auf Standardbild
                   IPS_SetMediaFile($media, $ImageFile, true);
               }
-
-              // Optional: Setze Medieninhalt (Base64-kodiert, falls benötigt)
-              // IPS_SetMediaContent($media, "Base64InhaltHier");
 
           } else {
               // Das Medienobjekt existiert bereits
