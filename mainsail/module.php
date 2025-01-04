@@ -225,7 +225,7 @@ class Mainsail extends IPSModule {
       */
 
       private function CreateThumbnail() {
-          // Erstelle eine einzigartige Bilddatei basierend auf der InstanceID
+          // Erstelle einen einzigartigen Dateipfad basierend auf der InstanceID
           $imageFileName = __DIR__ . '/media/thumbnail_' . $this->InstanceID . '.jpg';
 
           // Immer zu Beginn eine einzigartige Kopie der na.jpg-Datei erstellen
@@ -259,7 +259,7 @@ class Mainsail extends IPSModule {
 
                   // Überprüfe, ob der Download erfolgreich war
                   if ($content && !$curl_error) {
-                      // Speichere das heruntergeladene Thumbnail im Dateisystem
+                      // Speichere das heruntergeladene Thumbnail in der einzigartigen Bilddatei
                       file_put_contents($imageFileName, $content);
 
                       // Setze das Bild für das Modul
