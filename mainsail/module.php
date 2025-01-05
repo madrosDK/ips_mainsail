@@ -176,23 +176,19 @@ class Mainsail extends IPSModule {
     public function RequestAction($Ident, $Value) {
         switch ($Ident) {
             case "Licht":
-                // Aktuellen Status der Licht-Variable abrufen
-                $currentValue = GetValue($this->GetIDForIdent($Ident));
-
                 // URL-Basis aus den Moduleigenschaften erstellen
                 $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
 
-                if ($currentValue == "1") {
-                    // Licht ausschalten
-                    $this->httpGet($url . "/printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
-                } else {
+                if ($Value == "1") {
                     // Licht einschalten
                     $this->httpGet($url . "/printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
+                } else {
+                    // Licht ausschalten
+                    $this->httpGet($url . "/printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=0");
                 }
 
-                // Status erneut abfragen und aktualisieren
-                $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
-                SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
+                // Den neuen Wert direkt in IP-Symcon setzen
+                SetValue($this->GetIDForIdent("Licht"), $Value);
                 break;
 
             case "Message":
@@ -201,7 +197,7 @@ class Mainsail extends IPSModule {
                 break;
 
             default:
-                // Keine Fehlerausgabe oder Logging bei ungültigem Ident
+                // Kein Logging, keine Fehlerausgabe, einfach ignorieren
                 break;
         }
     }
