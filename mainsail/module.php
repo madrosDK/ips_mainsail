@@ -199,11 +199,6 @@ class Mainsail extends IPSModule {
                 // Wert der Variable "Message" setzen
                 SetValue($this->GetIDForIdent("Message"), $Value);
                 break;
-
-            default:
-                // Detaillierte Fehlermeldung für Debugging
-                IPS_LogMessage("RequestAction", "Invalid Ident: $Ident");
-                throw new Exception("Invalid Ident: $Ident");
         }
     }
 
