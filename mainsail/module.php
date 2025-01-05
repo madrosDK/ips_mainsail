@@ -171,6 +171,7 @@ class Mainsail extends IPSModule {
               default:
                   throw new Exception("Invalid Ident");
           }
+                }
     */
     public function RequestAction($Ident, $Value) {
         switch ($Ident) {
@@ -205,8 +206,8 @@ class Mainsail extends IPSModule {
                 throw new Exception("Invalid Ident: $Ident");
         }
     }
-    
-      }
+
+
 
     private function RequestAPI($path) {
         $url = $this->ReadPropertyString("Scheme") . '://' . $this->ReadPropertyString("Host");
