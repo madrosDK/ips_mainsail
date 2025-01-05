@@ -190,7 +190,7 @@ class Mainsail extends IPSModule {
                     $this->httpGet($url . "/printer/gcode/script?script=SET_PIN%20PIN=caselight%20VALUE=1");
                 }
 
-                // Status abfragen und aktualisieren
+                // Status erneut abfragen und aktualisieren
                 $data = $this->RequestAPI('/printer/objects/query?output_pin%20caselight');
                 SetValue($this->GetIDForIdent("Licht"), $this->FixupInvalidValue($data->result->status->{'output_pin caselight'}->value));
                 break;
@@ -198,6 +198,10 @@ class Mainsail extends IPSModule {
             case "Message":
                 // Wert der Variable "Message" setzen
                 SetValue($this->GetIDForIdent("Message"), $Value);
+                break;
+
+            default:
+                // Keine Fehlerausgabe oder Logging bei ungültigem Ident
                 break;
         }
     }
